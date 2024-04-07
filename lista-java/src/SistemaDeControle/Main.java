@@ -66,44 +66,39 @@ public class Main {
 				}
 				break;
 			case 3:
+				
 				// Buscar produto
-				System.out.println("Pesquise o código do produto que você deseja buscar");
+				System.out.println("Pesquise o código do produto que você deseja buscar:");
 				codigo = sc.nextInt();
-				for (int i = 0; i < listar.size(); i++) {
-					if (listar.get(i).getCodigoProduto() == codigo) {
-						System.out.println("Codigo: " + listar.get(i).getCodigoProduto());
-						System.out.println("Nome: " + listar.get(i).getNomeProduto());
-						System.out.println("Quantidade: " + listar.get(i).getQuantidadeProduto());
-						System.out.println("Preço: " + listar.get(i).getPrecoProduto());
-						int opcaoParaAlterar;
-						System.out.println("1- alterar quantidade");
-						System.out.println("2- alterar preço");
-						System.out.println("3- não alterar");
-						opcaoParaAlterar = sc.nextInt();
-						if (opcaoParaAlterar == 1) {
-							System.out.println("Qual a nova quantidade?");
-							int novaQuantidade = sc.nextInt();
-							if (novaQuantidade > 0) {
-								listar.get(i).setQuantidadeProduto(novaQuantidade);
-								;
-							} else {
-								System.out.println("Quantidade inválida");
-							}
-						} else if (opcaoParaAlterar == 2) {
-							System.out.println("Novo preço:");
-							double novoPreco = sc.nextDouble();
-							if (novoPreco <= 0) {
-								listar.get(i).setPrecoProduto(novoPreco);
-							} else {
-								System.out.println("Preço inválido");
-							}
-						} else if (opcaoParaAlterar == 3) {
-							System.out.println("Produto não alterado");
+				sc.nextLine();
+				String buscarProduto = estoque.buscarProduto(codigo);
+				if (buscarProduto != null) {
+					System.out.println(buscarProduto);
+					int opcaoParaAlterar;
+					System.out.println("1- Alterar quantidade");
+					System.out.println("2- Não alterar");
+					opcaoParaAlterar = sc.nextInt();
+					sc.nextLine();
+					
+					//alterando a quantidade
+					if (opcaoParaAlterar == 1) {
+						System.out.println("Qual a nova quantidade?");
+						int novaQuantidade = sc.nextInt();
+						sc.nextLine(); 
+						
+						if (novaQuantidade > 0) {
+							estoque.atualizarQuantidade(codigo, novaQuantidade);
+							System.out.println("Quantidade atualizada com sucesso.");
+						} else {
+							System.out.println("Quantidade inválida");
 						}
-						break;
 					}
+					
+				} else {
+					System.out.println("Produto não encontrado");
 				}
 				break;
+
 			case 4:
 				// Listar produto
 				listar = estoque.listarProdutos();
