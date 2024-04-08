@@ -30,9 +30,17 @@ public class Main {
 				int quantidade = 0;
 				double preco = 0;
 				do {
+					
 					System.out.println("Quantos produtos você deseja adicionar?");
 					int quantidadeDeproduto = sc.nextInt();
 					sc.nextLine();
+					
+					 if (quantidadeDeproduto <= 0) {
+					        System.out.println("Quantidade inválida. Por favor, insira um valor maior que zero.");
+					        validandoAsEtapas = false; // Marca como falso para repetir a solicitação de quantidade
+					        continue; // Pula para a próxima iteração do loop
+					    }
+					
 					for (int i = 0; i < quantidadeDeproduto; i++) {
 						System.out.println();
 						System.out.println("Nome do produto:");
@@ -44,12 +52,21 @@ public class Main {
 						System.out.println("Preco do produto:");
 						preco = sc.nextDouble();
 						sc.nextLine();
+						
+						
+						 if (nomeProduto.isEmpty() || codigo <= 0 || quantidade <= 0 || preco <= 0) {
+					            System.out.println("Entrada inválida. Por favor, verifique os valores fornecidos e tente novamente.");
+					            validandoAsEtapas = false; 
+					            break; 
+					        }
+						
+						Produto produto = new Produto(codigo, nomeProduto, quantidade, preco);
+						estoque.adicionarProduto(produto);
 					}
-					Produto produto = new Produto(codigo, nomeProduto, quantidade, preco);
-					estoque.adicionarProduto(produto);
+					
 					validandoAsEtapas = true;
 
-				} while (nomeProduto.isEmpty() || codigo <= 0 || quantidade <= 0 || preco <= 0);
+				} while (!validandoAsEtapas);
 				break;
 			case 2:
 				// Remover Produto
@@ -109,6 +126,7 @@ public class Main {
 					System.out.println("Quantidade: " + listar.get(i).getQuantidadeProduto());
 					System.out.println("Preço: " + listar.get(i).getPrecoProduto());
 				}
+				System.out.println();
 				break;
 			default:
 				System.out.println("Sistema encerrado");
